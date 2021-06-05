@@ -1,0 +1,32 @@
+1. Much like the CSV reader, the JSON reader also assumes...
+    That there is one JSON object per line and...
+    That it's delineated by a new-line.
+This format is referred to as JSON Lines or newline-delimited JSON
+2. Unlike CSV which reads in 100% of the data, the JSON reader only samples the data.
+3. parquet reader can "read" the schema very quickly because it's reading that schema from the metadata.
+4. Note #1: The method createOrReplaceTempView(..) is bound to the SparkSession meaning it will be discarded once the session ends.
+    Note #2: On the other hand, the method createOrReplaceGlobalTempView(..) is bound to the spark application.*
+5. UDF Drawbacks:
+    UDFs cannot be optimized by the Catalyst Optimizer
+    The function has to be serialized and sent out to the executors
+    In the case of Python, there is even more overhead - we have to spin up a Python interpreter on every Executor to run the UDF 
+    (e.g. Python UDFs much slower than Scala UDFs)
+6. Apache Arrow, is an in-memory columnar data format that is used in Spark to efficiently transfer data between JVM and Python processes.
+    Vectorized UDFs utilize Apache Arrow to speed up computation.
+    from pyspark.sql.functions import pandas_udf
+7. Delta Lake is a transactional storage layer designed specifically to work with Apache Spark and Databricks File System (DBFS).
+8. Bronze tables
+        Raw data (or very little processing)
+        Data will be stored in the Delta format (can encode raw bytes as a column)
+    Silver tables
+        Data that is directly queryable and ready for insights
+        Bad records have been handled, types have been enforced
+    Gold tables
+        Highly refined views of the data
+        Aggregate tables for BI
+        Feature tables for data scientists
+9. Tables created with a specified LOCATION are considered unmanaged by the metastore.
+10. we only store table name, path, database info in the Hive metastore, the actual schema is stored in the _delta_log directory
+11.  three main building blocks in the Spark’s machine learning library: transformers, estimators, and pipelines
+12. The difference between a sparse and dense vector is whether Spark records all of the empty values. In a sparse vector, like we see here, Spark saves space by only recording the places where the vector has a non-zero value. 
+13. Transformers - StringIndexer, OneHotEncoder, Imputer, Binarizer, regexp_replace, filter
