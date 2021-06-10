@@ -30,3 +30,13 @@ This format is referred to as JSON Lines or newline-delimited JSON
 11.  three main building blocks in the Spark’s machine learning library: transformers, estimators, and pipelines
 12. The difference between a sparse and dense vector is whether Spark records all of the empty values. In a sparse vector, like we see here, Spark saves space by only recording the places where the vector has a non-zero value. 
 13. Transformers - StringIndexer, OneHotEncoder, Imputer, Binarizer, regexp_replace, filter
+14. MLflow seeks to address these three core issues:
+	It’s difficult to keep track of experiments
+	It’s difficult to reproduce code
+	There’s no standard way to package and deploy models
+15. Each run can record the following information:
+	Parameters: Key-value pairs of input parameters such as the number of trees in a random forest model
+	Metrics: Evaluation metrics such as RMSE or Area Under the ROC Curve
+	Artifacts: Arbitrary output files in any format. This can include images, pickled models, and data files
+	Source: The code that originally ran the experiment
+16. MLflow can only log PipelineModels.
